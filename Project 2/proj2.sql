@@ -12,18 +12,18 @@ SET PAGESIZE 500;
 SPOOL proj2.out;
 
 
-REM Problem 1
+REM Problem 1: Find all players (first and last names) who played in New York but not in Miami;
 REM SELECT system.PLAYERREGULARSEASON.FIRSTNAME, system.PLAYERREGULARSEASON.LASTNAME, system.PLAYERREGULARSEASON.TEAM, system.PLAYERREGULARSEASON.YEAR FROM system.PLAYERREGULARSEASON WHERE system.PLAYERREGULARSEASON.TEAM = 'MIA';
 REM SELECT system.PLAYERREGULARSEASON.FIRSTNAME, system.PLAYERREGULARSEASON.LASTNAME FROM system.PLAYERREGULARSEASON WHERE system.PLAYERREGULARSEASON.TEAM = 'NYK') EXCEPT (SELECT system.PLAYERREGULARSEASON.FIRSTNAME, system.PLAYERREGULARSEASON.LASTNAME WHERE system.PLAYERREGULARSEASON.TEAM = 'MIA');
 
 
-REM Problem 2
+REM Problem 2: Find all the coaches (and the teams they coached) who has never coached a San Antonio team in the "A" league and sort them by <first name, last name>
 
 
-REM Problem 3
+REM Problem 3: Find all the all star players who ever played for a Detroit team. Print their names and the season(s) they played in the all-star team (hint: an all-star player must have attended the regular season in the same year)
 
 
-REM Problem 4
+REM Problem 4: Find the best coach(es) in season(year) 1998. Best coach is the one(s) with the largest number of net wins, which is defined as (season_win - eason_loss) + (playoff_win - playoff_loss). Specifically, print the first name, last name, and the net wins in a new column named “netwin”;
 
 
 REM Problem 5
