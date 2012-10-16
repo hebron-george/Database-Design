@@ -1,7 +1,1 @@
 This folder contains code from my Database Design class' projects.
-
-Compilation:
-	javac *.java
-
-Execution:
-	java P1
