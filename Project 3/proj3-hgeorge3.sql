@@ -29,7 +29,7 @@ counter INT;
 previousH VARCHAR2(10);
 CURSOR rows IS
 	SELECT FIRSTNAME, LASTNAME, (H_FEET * 30.48 + H_INCHES * 2.54) AS HEIGHT
-  	FROM system.PLAYERS P
+  	FROM system.PLAYERS
   	WHERE H_FEET IS NOT NULL AND H_INCHES IS NOT NULL AND H_INCHES >= 0 AND H_FEET >= 0
   	ORDER BY HEIGHT DESC;
 BEGIN
@@ -100,17 +100,71 @@ AS
 	ORDER BY points DESC;
 	currentCount INT;
 	maxCount INT;
+	up INT;
+	down INT;
 	result VARCHAR2(8000);
 BEGIN
 	result := '';
 	maxCount := 1;
+	up := 1;
+	down := 0;
 	currentCount := maxCount;
+	
+
 	FOR player IN rows LOOP
 		result := result || ' ' || player.FIRSTNAME || ' ' || player.LASTNAME || ':' || player.points;
 		currentCount := currentCount - 1;
+		
 		IF currentCount = 0 THEN
 			result := result || CHR(10) || CHR(13);
-			maxCount := maxCount + 1;
+
+
+			-- This is for counting the triangle up
+			IF maxCount = 1 AND up = 1 THEN
+				maxCount := 2;
+			ELSIF maxCount = 2 AND up = 1 THEN
+				maxCount := 3;
+			ELSIF maxCount = 3 AND up = 1 THEN
+				maxCount := 4;			
+			ELSIF maxCount = 4 AND up = 1 THEN
+				maxCount := 5;
+			ELSIF maxCount = 5 AND up = 1 THEN
+				maxCount := 6;
+			ELSIF maxCount = 6 AND up = 1 THEN
+				maxCount := 7;
+			ELSIF maxCount = 7 AND up = 1 THEN
+				maxCount := 8;
+			ELSIF maxCount = 8 AND up = 1 THEN
+				maxCount := 9;
+			ELSIF maxCount = 9 AND up = 1 THEN
+				maxCount := 10;
+			ELSIF maxCount = 10 AND up = 1 THEN
+				maxCount := 9;
+				up := 0;
+				down := 1;
+			-- This is for counting the triangle down
+			ELSIF maxCount = 9 AND down = 1  THEN
+				maxCount := 8;
+			ELSIF maxCount = 8 AND down = 1  THEN
+				maxCount := 7;
+			ELSIF maxCount = 7 AND down = 1  THEN
+				maxCount := 6;
+			ELSIF maxCount = 6 AND down = 1  THEN
+				maxCount := 5;
+			ELSIF maxCount = 5 AND down = 1  THEN
+				maxCount := 4;
+			ELSIF maxCount = 4 AND down = 1  THEN
+				maxCount := 3;
+			ELSIF maxCount = 3 AND down = 1  THEN
+				maxCount := 2;
+			ELSIF maxCount = 2 AND down = 1  THEN
+				maxCount := 1;
+			ELSIF maxCount = 1 AND down = 1 THEN
+				down := 0;
+				up := 1;
+				maxCount := 2;
+			END IF;
+
 			currentCount := maxCount;
 		ELSE
 			result := result || ', ';
