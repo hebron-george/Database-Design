@@ -8,6 +8,7 @@ REM ============================================
 REM do not change the following two lines!
 SET PAGESIZE 5000;
 SET serveroutput on size 32000; 
+exec dbms_output.enable('1000000');
 
 REM Change output file name to proj3-NetID.out!
 SPOOL proj3-hgeorge3.out;
@@ -90,25 +91,32 @@ REM ============================================
 REM Problem 3 - procedure point_triangle
 create or replace procedure point_triangles (team_name IN VARCHAR2)
 AS
--- define local variables here
-CURSOR rows
-IS
-SELECT FIRSTNAME, LASTNAME, SUM(PTS) AS points
-FROM system.PLAYERREGULARSEASON
-WHERE TEAM = team_name
-GROUP BY FIRSTNAME, LASTNAME
-ORDER BY points DESC;
-currentCount INT;
-maxCount INT;
+	-- define local variables here
+	CURSOR rows	IS
+	SELECT FIRSTNAME, LASTNAME, SUM(PTS) AS points
+	FROM system.PLAYERREGULARSEASON
+	WHERE TEAM = team_name
+	GROUP BY FIRSTNAME, LASTNAME
+	ORDER BY points DESC;
+	currentCount INT;
+	maxCount INT;
+	result VARCHAR2(8000);
 BEGIN
-FOR player IN rows LOOP
-	
+	result := '';
+	maxCount := 1;
 	currentCount := maxCount;
-	DBMS_OUTPUT.PUT(player.FIRSTNAME || ' ' || player.LASTNAME || ':' || player.points || ' ');
-
-	--DBMS_OUTPUT.NEW_LINE();
-END LOOP;
-
+	FOR player IN rows LOOP
+		result := result || ' ' || player.FIRSTNAME || ' ' || player.LASTNAME || ':' || player.points;
+		currentCount := currentCount - 1;
+		IF currentCount = 0 THEN
+			result := result || CHR(10) || CHR(13);
+			maxCount := maxCount + 1;
+			currentCount := maxCount;
+		ELSE
+			result := result || ', ';
+		END IF;
+	END LOOP;
+		DBMS_OUTPUT.PUT_LINE(result);
 END;
 /
 REM ============================================
